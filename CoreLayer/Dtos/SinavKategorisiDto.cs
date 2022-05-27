@@ -11,6 +11,6 @@ namespace CoreLayer.Dtos
         public int Id { get; set; }
         public string KategoriAdi { get; set; }
         public int? SinavId { get; set; }
-        public List<SoruDto> Sorular { get; set; }
+        public List<SoruDto> Sorular { get; set; } = new List<SoruDto>();
     }
 }

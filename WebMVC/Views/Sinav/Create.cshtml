@@ -39,219 +39,80 @@
 </div>
 <div>
     <ul id="kategoriListesi">
-        
     </ul>
 </div>
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 <style>
-    #cevaplar{
-        display:grid;
-        grid-template-columns:45% 45%;
-        width:100%;
-        height:max-content;
+    #cevaplar {
+        display: grid;
+        grid-template-columns: 45% 45%;
+        width: 100%;
+        height: max-content;
     }
-
+    #cont{
+        display:grid;
+        grid-template-rows:18% 70% 5%;
+        min-height:800px;
+        height:max-content;
+        border:1px solid black;
+    }
+    #cont div{
+        width:90%;
+        margin:1% auto;
+    }
+    #ustCont{
+        display:grid;
+        grid-template-rows:60% 20%;
+        border:5px solid black;
+    }
+    #ustCont:first-child{
+        font-size:18pt;
+        font-weight:bold;
+        text-align:center;
+        margin-top:2%;
+    }
+    #ustCont div{
+        width:90%;
+        height:max-content;
+        border:3px solid black;
+    }
+    #ustKisim{
+        display:grid;
+        grid-template-columns:50% 20% 20%;
+        width:90%;
+        margin:0px auto;
+        font-size:10pt;
+        border:5px solid black;
+    }
+    #ustKisim:first-child{
+        text-align:left;
+    }
+    #ustKisim div{
+        margin:0px auto;
+        border:1px solid black;
+        width:90%;
+        font-weight:bold;
+        height:100%;
+    }
+    #altCont{
+        border:3px solid black;
+    }
+    .yon {
+        width: 70px;
+        height: 70px;
+        border: none;
+        color: white;
+        background-color: #4CAF50;
+        cursor: pointer;
+        border: 2px solid #4CAF50;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+    }
 </style>
 
 
-<script>
-    //ARRAYLER
-    var Kategoriler = new Array();
-    //CLASLARR
-    class Sinav{
-        constructor(ad, aciklama, sure, gecmeNotu) {
-            this.ad = ad;
-            this.aciklama = aciklama;
-            this.sure = sure;
-            this.gecmeNotu = gecmeNotu;
-        }
-    }
-    class Kategori {
-        constructor(KategoriAdi) {
-            this.KategoriAdi = KategoriAdi;
-            
-        }
-        
-    }
-    class Soru {
-        constructor() {
-
-        }
-    }
-    class Cevap {
-        constructor() {
-
-        }
-    }
-    //
-
-
-    //AJAX
-    $('#frmSinav').submit(function (e) {
-        e.preventDefault();
-        var formData = $(this).serialize();
-        //alert(kategoriAdi);
-        $.ajax({
-            type: 'POST',
-            url: '/Sinav/SinavEkle',
-            data: formData,
-            success: function (data) {
-                kategoriEkleFormu();
-            },
-            error: function (error) {
-
-            }
-        });
-    });
-    function kategoriEkleFormu() {
-        var place = document.getElementById("place");
-        formKaldir();
-        var form = document.createElement("form");
-        form.id = "frmKategori";
-        var div = divOlustur();
-        var nesne = textboxOlustur();
-        nesne.setAttribute("name", "KategoriAdi");
-        nesne.placeholder = "Sinav Kategorisi Ekleyiniz.";
-        div.appendChild(nesne);
-        form.appendChild(div);
-        var div1 = divOlustur();
-        var ekle = butonOlustur('Ekle');
-        ekle.addEventListener("click", function () {
-            if (nesne.value != " ")
-                var index = kategoriEkleMethod(nesne.value);
-            liOlustur(nesne.value, index);
-        });
-        ekle.setAttribute("onclick",'return false');
-        div1.appendChild(ekle);
-        form.appendChild(div1);
-        var div2 = divOlustur();
-        var devamEt = butonOlustur('Devam Et');
-        devamEt.addEventListener("click", function () {
-            //static instance da bulunan sinav kategorilerini çekerek dropdown a listeletme yapılacak
-            var kategoriListesi = document.getElementById("kategoriListesi");
-            kategoriListesi.remove();
-            formKaldir();
-            soruEkleFormuOlustur();
-        });
-        div2.appendChild(devamEt);
-
-        form.appendChild(div2);
-        place.appendChild(form);
-    }
-    function kategoriEkleMethod(str) {
-        //var xhr = new XMLHttpRequest();
-        //xhr.onreadystatechange = function () {
-        //    if (xhr.readyState == 4 && xhr.status == 200) {
-        //        let result = JSON.parse(xhr.responseText);
-                var kat = new Kategori(str);
-        Kategoriler.push(kat);
-        console.log(Kategoriler.length-1);
-        return (Kategoriler.length-1)
-          //  }
-        //}
-       // xhr.open("POST", "/Sinav/KategoriEkle?KategoriAdi=" + str, true);
-        //xhr.send();
-    }
-
-    function soruEkleFormuOlustur() {
-        var place = document.getElementById("place");
-        var form = document.createElement("form");
-        form.id = "frmSoruEkle";
-        var div = divOlustur();
-        var select = document.createElement("select");
-        select.className = "form-control";
-        for (var i = 0; i < Kategoriler.length; i++) {
-            var opt = document.createElement("option");
-            opt.value = i;
-            opt.innerText = Kategoriler[i].KategoriAdi;
-            select.appendChild(opt);
-        }
-        div.appendChild(select);
-        var div1 = divOlustur();
-        var nesne = textboxOlustur();
-        nesne.setAttribute("name", "soru");
-        nesne.style.height = "80px";
-        nesne.placeholder = "Soru giriniz.";
-        div1.appendChild(nesne);
-        var cevapDivi = divOlustur();
-        cevapDivi.id = "cevaplar";
-        cevapDivi.appendChild(cevapOlustur('A'));
-        cevapDivi.appendChild(cevapOlustur('B'));
-        cevapDivi.appendChild(cevapOlustur('C'));
-        cevapDivi.appendChild(cevapOlustur('D'));
-        var div2 = divOlustur();
-        var ekle = butonOlustur('Ekle');
-        ekle.addEventListener("click", function () {
-
-        });
-
-        var div3 = divOlustur();
-        var devamEt = butonOlustur('Devam Et');
-        devamEt.addEventListener("click", function () {
-            formKaldir();
-            sinavEkranı();
-        });
-        div3.appendChild(devamEt);
-
-        form.appendChild(div);
-        form.appendChild(div1);
-        form.appendChild(cevapDivi);
-        place.appendChild(form);
-    }
-
-
-
-    //ORTAK METHOD'LAR//
-    function cevapOlustur(str) {
-        var cevap = divOlustur();
-        var txt = textboxOlustur();
-        txt.name = str;
-        txt.className = "form-control";
-        txt.placeholder = str + " şıkkını giriniz";
-        txt.style.marginLeft="3%";
-        cevap.appendChild(txt);
-        return cevap;
-    }
-
-    function divOlustur() {
-        var div = document.createElement("div");
-        div.className = "form-group";
-        return div;
-    }
-    function textboxOlustur() {
-        var nesne = document.createElement("input");
-        nesne.setAttribute("type", "text");
-        nesne.className = "form-control";
-        return nesne;
-    }
-    function butonOlustur(nick) {
-        var btn = document.createElement("input");
-        btn.setAttribute("type", "submit");
-        btn.value = nick;
-        btn.className = "btn btn-primary";
-        return btn;
-    }
-    function formKaldir() {
-        var frm = document.querySelector("#place form");
-        frm.remove();
-    }
-    function liOlustur(str,id) {
-        var li = document.createElement("li");
-        li.innerText = str;
-        li.id = "li_" + id;
-        var btn = document.createElement("button");
-        btn.innerText = "X";
-        btn.addEventListener("click", function () {
-            //  alert(id);
-            delete Kategoriler[id];
-            var lii = document.getElementById("li_" + id);
-            lii.remove();
-            //statik kısımdan silmek için
-        });
-        li.appendChild(btn);
-        var ul = document.getElementById("kategoriListesi");
-        ul.appendChild(li);
-    }
-</script>

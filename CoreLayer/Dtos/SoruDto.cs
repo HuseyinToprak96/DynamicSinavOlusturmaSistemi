@@ -13,6 +13,6 @@ namespace CoreLayer.Dtos
         public string soru { get; set; }
         public int? KategoriId { get; set; }
         public SoruTipi soruTipi { get; set; }
-        public List<CevapDto> cevaplar { get; set; }
+        public List<CevapDto> cevaplar { get; set; } = new List<CevapDto>();
     }
 }

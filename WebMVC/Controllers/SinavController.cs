@@ -1,4 +1,5 @@
 ﻿using CoreLayer.Dtos;
+using CoreLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,13 @@ namespace WebMVC.Controllers
     {
        // private readonly SinavAPI _SinavService;
 
-        public static SinavDto _sinav;
+        public static SinavDto _sinav = new SinavDto();
 
         public SinavController()
         {
             //SinavAPI sinavService
             //_SinavService = sinavService;
-            _sinav = new SinavDto();
+           // _sinav = new SinavDto();
          //   _sinav.Kategoriler = new List<SinavKategorisiDto>();
         }
         //public async Task<IActionResult> Index()
@@ -33,10 +34,10 @@ namespace WebMVC.Controllers
         public JsonResult SinavEkle(JustSinavDto justSinav)
         {
             _sinav.SinavAdi = justSinav.SinavAdi;
-            //_sinav.Aciklama = justSinav.Aciklama;
-            //_sinav.GecmeNotu = justSinav.GecmeNotu;
-            //_sinav.Sure = justSinav.Sure;
-            //_sinav.KategoriId = justSinav.KategoriId;
+            _sinav.Aciklama = justSinav.Aciklama;
+            _sinav.GecmeNotu = justSinav.GecmeNotu;
+            _sinav.Sure = justSinav.Sure;
+            _sinav.KategoriId = justSinav.KategoriId;
 
             return Json(_sinav.SinavAdi);
         }
@@ -48,16 +49,55 @@ namespace WebMVC.Controllers
             //_sinav.Sure = dto.Sure;
             //_sinav.KategoriId = dto.KategoriId;
         }
-        public JsonResult KategoriEkle(string KategoriAdi)
+        public int KategoriEkle(string KategoriAdi)
         {
             //dtos[0].
             _sinav.Kategoriler.Add(new SinavKategorisiDto { KategoriAdi=KategoriAdi });
-            return Json(_sinav.Kategoriler.Count-1);
+            TempData["sinav"] = _sinav.SinavAdi;
+            return (_sinav.Kategoriler.Count-1);
+        }
+        public bool KategoriKaldir(int indis)
+        {
+            _sinav.Kategoriler.Remove(_sinav.Kategoriler[indis]);
+            return true;
         }
         public static void KategoriyeSoruEkle(SoruDto soruDto)
         {
             var kategori = _sinav.Kategoriler.Where(x => x.Id == soruDto.KategoriId).SingleOrDefault();
             kategori.Sorular.Add(soruDto);
+        }
+
+        public JsonResult SoruTipleri()
+        {
+            return Json(SoruTipi.GetNames(typeof(SoruTipi)));
+        }
+        public static int ind;
+        [HttpPost]
+        public int SoruEkle(int soruTipi,int katIndis,string soru)
+        {
+            _sinav.Kategoriler[katIndis].Sorular.Add(new SoruDto { soruTipi = (SoruTipi)soruTipi, soru = soru });
+            ind= _sinav.Kategoriler[katIndis].Sorular.Count - 1;
+            return _sinav.Kategoriler[katIndis].Sorular.Count - 1;
+        }
+        public int Indis(int katId)
+        {
+            return _sinav.Kategoriler[katId].Sorular.Count - 1;
+        }
+        //[HttpPost]
+        //public int SoruuEkle(SoruDto soru)
+        //{
+        //    _sinav.Kategoriler[0].Sorular.Add(soru);
+        //    return _sinav.Kategoriler[0].Sorular.Count - 1;
+        //}
+        [HttpPost]
+        public void CevapEkle(int katIndis,int soruIndis,string cevap,bool dogruMu)
+        {
+            _sinav.Kategoriler[katIndis].Sorular[soruIndis].cevaplar.Add(new CevapDto { cevap = cevap, DogruMu = dogruMu });
+        }
+        [HttpPost]
+        public JsonResult Guncelle()
+        {
+           return Json(_sinav);
         }
         //public async Task Kaydet()
         //{
