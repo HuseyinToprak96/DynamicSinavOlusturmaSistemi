@@ -225,7 +225,7 @@
         console.log("İndis:" + soruId);
             }
         }
-    xhr.open("POST", "/Sinav/CevapEkle?katIndis=" + katId + "&soruIndis=" + (parseInt(soruId) + 1) + "&cevap=" + cevap + "&dogruMu=" + dogruMu, true);
+        xhr.open("POST", "/Sinav/CevapEkle?katIndis=" + katId + "&soruIndis=" + soruId + "&cevap=" + cevap + "&dogruMu=" + dogruMu, true);
     xhr.send();
     }
     function kullaniciAtama() {
@@ -273,7 +273,7 @@
     }
     var kategoriIndis = -1;
     const tutucu = [];
-    const ind = 0;
+    let ind = 0;
     function sinavEkrani() {
         tutucu.push(1);
     var place = document.getElementById("place");
@@ -322,7 +322,7 @@
         sayfaNumarasi = parseInt(sayfaNumarasi) - 1;
     // alert(sayfaNumarasi);
 
-    if (tutucu.includes(sayfaNumarasi - 1)) {
+    if (tutucu.includes(sayfaNumarasi)) {
         ind = tutucu.indexOf(sayfaNumarasi);
                     }
     sayfa(sayfaNumarasi, kategoriler[ind]);
@@ -334,12 +334,13 @@
     ileri.className = "yon";
     ileri.innerText = "İLERİ";
     ileri.addEventListener("click", function () {
-        sayfaNumarasi = parseInt(sayfaNumarasi) + 1;
+      
     var ind = 0;
     if (tutucu.includes(sayfaNumarasi)) {
         ind = tutucu.indexOf(sayfaNumarasi);
                     }
-    if (sayfaNumarasi < tutucu[tutucu.length - 1]) {
+        if (sayfaNumarasi < tutucu[tutucu.length - 1]) {
+            sayfaNumarasi = parseInt(sayfaNumarasi) + 1;
         sayfa(sayfaNumarasi, kategoriler[ind]);
                     }
 
