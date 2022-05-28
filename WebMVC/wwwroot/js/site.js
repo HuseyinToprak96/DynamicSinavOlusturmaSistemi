@@ -192,6 +192,8 @@
     var devamEt = butonOlustur('Devam Et');
     devamEt.addEventListener("click", function () {
         formKaldir();
+
+
     sinavEkrani();
             //kullaniciAtama();
         });
@@ -232,49 +234,7 @@
     //    xhr.open("POST", "/Sinav/CevapEkle?katIndis=" + katId + "&soruIndis=" + soruId + "&cevap=" + cevap + "&dogruMu=" + dogruMu, true);
     //xhr.send();
     //}
-    function kullaniciAtama() {
-            var place = document.getElementById("place");
-
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-        //let result = JSON.parse(xhr.responseText);
-        //var dizi = JSON.from(result);
-        //for (var i = 0; i < dizi.length; i++) {
-
-        //}
-        console.log(xhr.responseText);
-    var table = document.createElement("table");
-    var tr1 = document.createElement("tr");
-    var td1 = document.createElement("td");
-    td1.innerText = "Numarası";
-    var td2 = document.createElement("td");
-    td2.innerText="Adı Soyadı"
-    var td3 = document.createElement("td");
-    td3.innerText = "Sinava Ekle";
-    tr1.appendChild(td1);
-    tr1.appendChild(td2);
-    tr1.appendChild(td3);
-    var tr = document.createElement("tr");
-    var td1 = document.createElement("td");
-    td1.innerText = xhr.responseText;
-    var td2 = document.createElement("td");
-    td2.innerText = xhr.responseText;
-    var td3 = document.createElement("td");
-    var rb = document.createElement("input");
-    rb.setAttribute("type", "radio");
-    td3.appendChild(rb);
-    tr.appendChild(td1);
-    tr.appendChild(td2);
-    tr.appendChild(td3);
-    table.appendChild(tr1);
-    table.appendChild(tr);
-    place.appendChild(table);
-                }
-            }
-    xhr.open("POST", "/Kullanici/Liste", true);
-    xhr.send();
-    }
+    
     var kategoriIndis = -1;
     const tutucu = [];
     let ind = 0;
@@ -286,13 +246,18 @@
     xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
         let result = JSON.parse(xhr.responseText);
-    var kategoriler = Array.from(result.kategoriler);
+                var kategoriler = Array.from(result.kategoriler);
+                console.log(kategoriler);
                 for (var i = 0; i < kategoriler.length; i++) {
                     var sayfaSayisi = (kategoriler[i].sorular.length) / 4;
+                    if (sayfaSayisi % 1 != 0) {
+                        sayfaSayisi= Math.floor(sayfaSayisi) + 1;
+                    }
                     if (kategoriler[i].sorular.length % 4 != 0) {
                         sayfaNumarasi += 1;
                     }
                     tutucu.push((sayfaSayisi) + 1 + tutucu[tutucu.length - 1]);
+                    console.log((sayfaSayisi) + 1 + tutucu[tutucu.length - 1]);
                     //Kategori geçiş sayfalarını tutar//Kategori Başlıkları için
                 }
     //console.log(kategoriler);
@@ -328,26 +293,43 @@
     geri.disabled = true;
     geri.addEventListener("click", function () {
         sayfaNumarasi = parseInt(sayfaNumarasi) - 1;
-    // alert(sayfaNumarasi);
-
+        // alert(sayfaNumarasi);
+        ileri.disabled = false;
+        tamamla.remove();
     if (tutucu.includes(sayfaNumarasi)) {
         ind = tutucu.indexOf(sayfaNumarasi);
                     }
     sayfa(sayfaNumarasi, kategoriler[ind]);
-    if (sayfaNumarasi == 0)
-    geri.disabled = true;
+        if (sayfaNumarasi == 0)
+            geri.disabled = true;
+        else
+            console.log(sayfaNumarasi);
                 });
 
+    var tamamla = document.createElement("button");
+    tamamla.className = "tamamla";
+                tamamla.innerText = "TAMAMLA";
+                tamamla.addEventListener("click", function () {
+                    kullaniciAtama();
+                });
     var ileri = document.createElement("button");
     ileri.className = "yon";
     ileri.innerText = "İLERİ";
     ileri.addEventListener("click", function () {
-      
+       
+        if (sayfaNumarasi == tutucu[tutucu.length - 1]-1) {
+            btnDiv.appendChild(tamamla);
+            ileri.disabled = true;
+        }
+        else {
+            tamamla.remove();
+        }
     
     if (tutucu.includes(sayfaNumarasi)) {
         ind = tutucu.indexOf(sayfaNumarasi);
                     }
         if (sayfaNumarasi < tutucu[tutucu.length - 1]) {
+          //  console.log(sayfaNumarasi);
             sayfaNumarasi = parseInt(sayfaNumarasi) + 1;
         sayfa(sayfaNumarasi, kategoriler[ind]);
                     }
@@ -355,9 +337,9 @@
     // alert(sayfaNumarasi);
     geri.disabled = false;
                 });
-
     btnDiv.appendChild(geri);
-    btnDiv.appendChild(ileri);
+                btnDiv.appendChild(ileri);
+               
     butonlar.appendChild(btnDiv);
     ustKisim.appendChild(sinavAdi);
     ustKisim.appendChild(gecmeNotu);
@@ -373,7 +355,8 @@
         }
     xhr.open("POST", "/Sinav/Guncelle", true);
     xhr.send();
-    }
+}
+var gecis = 1;
 function sayfa(no, kategori) {
 
     var contSorular = divOlustur();
@@ -381,14 +364,20 @@ function sayfa(no, kategori) {
     var cont = document.getElementById("altCont");
     cont.innerText = "";
     if (tutucu.includes(no)) {
+        gecis = no;
         var kategoriBaslik = divOlustur();
         kategoriBaslik.className = "baslik";
         kategoriBaslik.innerText = kategori.kategoriAdi;
         cont.appendChild(kategoriBaslik);
         }
-        else {
-            var sorular = Array.from(kategori.sorular);
-            for (var i = 0; i < sorular.length; i++) {
+    else {
+        console.log(gecis);
+        console.log(no);
+        var sorular = Array.from(kategori.sorular);
+        var sayac = (no - gecis) * 4;
+        if (sorular.length < (no - gecis) * 4)
+            sayac = sorular.length;
+            for (var i = (no - gecis - 1) * 4; i < sayac; i++) {
                 var soru = divOlustur();
                 soru.className = "soru";
                 var s = divOlustur();
@@ -417,6 +406,73 @@ function sayfa(no, kategori) {
     xhr.open("POST","/Sinav/Kategori")
 
     }
+
+
+function kullaniciAtama() {
+    var place = document.getElementById("place");
+    place.innerText = "";
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            //let result = JSON.parse(xhr.responseText);
+            //var dizi = JSON.from(result);
+            //for (var i = 0; i < dizi.length; i++) {
+
+            //}
+            //console.log(xhr.responseText);
+            var table = document.createElement("table");
+            table.className = "table";
+            var tr1 = document.createElement("tr");
+            var td11 = document.createElement("td");
+            td11.innerText = "Numarası";
+            var td12 = document.createElement("td");
+            td12.innerText = "Adı Soyadı"
+            var td13 = document.createElement("td");
+            td13.innerText = "Sinava Ekle";
+            tr1.appendChild(td11);
+            tr1.appendChild(td12);
+            tr1.appendChild(td13);
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td");
+            td1.innerText = xhr.responseText;
+            var td2 = document.createElement("td");
+            td2.innerText = xhr.responseText;
+            var td3 = document.createElement("td");
+            var rb = document.createElement("input");
+            rb.setAttribute("type", "radio");
+            rb.addEventListener("change", function () {
+                alert("eklendi");
+            });
+            var tr2 = document.createElement("tr");
+            var td21 = document.createElement("td");
+            td21.colSpan = 3;
+            var but = butonOlustur("KAYDET");
+            but.className = "tamamla";
+            td21.appendChild(but);
+            but.addEventListener("click", function () {
+                alert("Kaydedildi.");
+            });
+            td3.appendChild(rb);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr2.appendChild(td21);
+            table.appendChild(tr1);
+            table.appendChild(tr);
+            table.appendChild(tr2);
+            place.appendChild(table);
+        }
+    }
+    xhr.open("POST", "/Kullanici/Liste", true);
+    xhr.send();
+}
+
+
+
+
+
+
+
 
 
     //ORTAK METHOD'LAR//
