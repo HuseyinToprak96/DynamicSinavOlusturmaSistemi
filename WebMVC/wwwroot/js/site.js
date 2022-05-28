@@ -168,20 +168,24 @@
     var ekle = butonOlustur('Ekle');
     ekle.setAttribute("onclick", 'return false');
     div2.appendChild(ekle);
-    ekle.addEventListener("click", function () {
-        soruEkleMethod(select.value, nesne.value, sTipi);
-    cevapEkleMethod(select.value, indis, a.value, rdA.checked);
-    cevapEkleMethod(select.value, indis, b.value, rdB.checked);
-    cevapEkleMethod(select.value, indis, c.value, rdC.checked);
-    cevapEkleMethod(select.value, indis, d.value, rdD.checked);
-            //var dto = "[ 'soruTipi':" + sTipi + ",'soru':" + nesne.value +
-            //    "'cevaplar:[{'cevap':" + a.value + "',dogruMu':" + rdA.checked + "}," +
-            //    "{'cevap': " + b.value + "',dogruMu': " + rdB.checked + " }," +
-            //    "{'cevap': " + c.value + "',dogruMu': " + rdC.checked + " }, " +
-            //    "{'cevap': " + d.value + "',dogruMu': " + rdD.checked + " }, ]";
-            //var xhr = new XMLHttpRequest();
-            //xhr.open("POST", "/Sinav/SoruuEkle?soru=" + JSON.stringify(dto), true);
-            //xhr.send();
+        ekle.addEventListener("click", function () {
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseText);
+                }
+            }
+            xhr.open("POST", "/Sinav/ekleSoru?sor.soru=" + nesne.value + "&sor.soruTipi=" + sTipi + "&sor.cevaplar[0].cevap=" + a.value + "&sor.cevaplar[0].DogruMu=" + rdA.checked + "&sor.cevaplar[1].cevap=" + b.value + "&sor.cevaplar[1].DogruMu=" + rdB.checked + "&sor.cevaplar[2].cevap=" + c.value + "&sor.cevaplar[2].DogruMu=" + rdC.checked + "&sor.cevaplar[3].cevap=" + d.value + "&sor.cevaplar[3].DogruMu=" + rdD.checked + "&katIndis=" + select.value);
+            xhr.send();
+
+
+    //    soruEkleMethod(select.value, nesne.value, sTipi);
+    //cevapEkleMethod(select.value, indis, a.value, rdA.checked);
+    //cevapEkleMethod(select.value, indis, b.value, rdB.checked);
+    //cevapEkleMethod(select.value, indis, c.value, rdC.checked);
+    //cevapEkleMethod(select.value, indis, d.value, rdD.checked);
+        
         });
 
     var div3 = divOlustur();
@@ -201,33 +205,33 @@
     place.appendChild(form);
     }
     let indis=-1;
-    function soruEkleMethod(katId, soru, soruTipi) {
-        // var soru = new Soru(katId, soru);
-        // console.log(katId);
-        // alert(soruTipi + " kat:" + katId + " soru:" + soru);
+    //function soruEkleMethod(katId, soru, soruTipi) {
+    //    // var soru = new Soru(katId, soru);
+    //    // console.log(katId);
+    //    // alert(soruTipi + " kat:" + katId + " soru:" + soru);
         
-        var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-        indis = xhr.responseText;
-              //  console.log("indis soru ekle method:"+indis);
-               // return indis;
-            }
-        }
-    xhr.open("POST", "/Sinav/SoruEkle?soruTipi=" + soruTipi + "&katIndis=" + katId + "&soru=" + soru, true);
-    xhr.send();
-    }
-    function cevapEkleMethod(katId, soruId, cevap, dogruMu) {
+    //    var xhr = new XMLHttpRequest();
+    //xhr.onreadystatechange = function () {
+    //        if (xhr.readyState == 4 && xhr.status == 200) {
+    //    indis = xhr.responseText;
+    //          //  console.log("indis soru ekle method:"+indis);
+    //           // return indis;
+    //        }
+    //    }
+    //xhr.open("POST", "/Sinav/SoruEkle?soruTipi=" + soruTipi + "&katIndis=" + katId + "&soru=" + soru, true);
+    //xhr.send();
+    //}
+    //function cevapEkleMethod(katId, soruId, cevap, dogruMu) {
        
-        var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-        console.log("İndis:" + soruId);
-            }
-        }
-        xhr.open("POST", "/Sinav/CevapEkle?katIndis=" + katId + "&soruIndis=" + soruId + "&cevap=" + cevap + "&dogruMu=" + dogruMu, true);
-    xhr.send();
-    }
+    //    var xhr = new XMLHttpRequest();
+    //xhr.onreadystatechange = function () {
+    //        if (xhr.readyState == 4 && xhr.status == 200) {
+    //    console.log("İndis:" + soruId);
+    //        }
+    //    }
+    //    xhr.open("POST", "/Sinav/CevapEkle?katIndis=" + katId + "&soruIndis=" + soruId + "&cevap=" + cevap + "&dogruMu=" + dogruMu, true);
+    //xhr.send();
+    //}
     function kullaniciAtama() {
             var place = document.getElementById("place");
 
@@ -283,11 +287,15 @@
             if (xhr.readyState == 4 && xhr.status == 200) {
         let result = JSON.parse(xhr.responseText);
     var kategoriler = Array.from(result.kategoriler);
-    for (var i = 0; i < kategoriler.length; i++) {
-        tutucu.push(kategoriler[i].sorular.length + 1 + tutucu[tutucu.length - 1]);
-                    //Kategori geçiş sayfalarını tutar
+                for (var i = 0; i < kategoriler.length; i++) {
+                    var sayfaSayisi = (kategoriler[i].sorular.length) / 4;
+                    if (kategoriler[i].sorular.length % 4 != 0) {
+                        sayfaNumarasi += 1;
+                    }
+                    tutucu.push((sayfaSayisi) + 1 + tutucu[tutucu.length - 1]);
+                    //Kategori geçiş sayfalarını tutar//Kategori Başlıkları için
                 }
-    console.log(kategoriler);
+    //console.log(kategoriler);
     console.log(tutucu);
     var cont = divOlustur();
     cont.id = "cont";
@@ -335,7 +343,7 @@
     ileri.innerText = "İLERİ";
     ileri.addEventListener("click", function () {
       
-    var ind = 0;
+    
     if (tutucu.includes(sayfaNumarasi)) {
         ind = tutucu.indexOf(sayfaNumarasi);
                     }
@@ -366,9 +374,39 @@
     xhr.open("POST", "/Sinav/Guncelle", true);
     xhr.send();
     }
-    function sayfa(no,kategori) {
-        var cont = document.getElementById("altCont");
-    cont.innerText = "Sayfa " + no + " Kategori:" + kategori.kategoriAdi;
+function sayfa(no, kategori) {
+
+    var contSorular = divOlustur();
+        contSorular.id = "sorular";
+    var cont = document.getElementById("altCont");
+    cont.innerText = "";
+    if (tutucu.includes(no)) {
+        var kategoriBaslik = divOlustur();
+        kategoriBaslik.className = "baslik";
+        kategoriBaslik.innerText = kategori.kategoriAdi;
+        cont.appendChild(kategoriBaslik);
+        }
+        else {
+            var sorular = Array.from(kategori.sorular);
+            for (var i = 0; i < sorular.length; i++) {
+                var soru = divOlustur();
+                soru.className = "soru";
+                var s = divOlustur();
+                s.innerText = "Soru:" + sorular[i].soru;
+                soru.appendChild(s);
+                var cevapDivi = divOlustur();
+                cevapDivi.className = "cevap";
+                var cevaplar = Array.from(sorular[i].cevaplar);
+                for (var j = 0; j < cevaplar.length; j++) {
+                    var cevap = butonOlustur(cevaplar[j].cevap);
+                    cevapDivi.appendChild(cevap);
+                }
+                soru.appendChild(cevapDivi);
+                contSorular.appendChild(soru);
+
+            }
+            cont.appendChild(contSorular);
+        }
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {

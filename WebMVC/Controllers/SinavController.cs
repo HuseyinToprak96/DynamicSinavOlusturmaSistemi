@@ -71,7 +71,7 @@ namespace WebMVC.Controllers
         {
             return Json(SoruTipi.GetNames(typeof(SoruTipi)));
         }
-        public static int ind;
+        public static int ind = new int();
         [HttpPost]
         public int SoruEkle(int soruTipi,int katIndis,string soru)
         {
@@ -92,7 +92,7 @@ namespace WebMVC.Controllers
         [HttpPost]
         public void CevapEkle(int katIndis,int soruIndis,string cevap,bool dogruMu)
         {
-            _sinav.Kategoriler[katIndis].Sorular[soruIndis].cevaplar.Add(new CevapDto { cevap = cevap, DogruMu = dogruMu });
+            _sinav.Kategoriler[katIndis].Sorular[ind].cevaplar.Add(new CevapDto { cevap = cevap, DogruMu = dogruMu });
         }
         [HttpPost]
         public JsonResult Guncelle()
@@ -103,7 +103,12 @@ namespace WebMVC.Controllers
         //{
         //    await _SinavService.Add(_sinav);
         //}
-
+        [HttpPost]
+        public bool ekleSoru(SoruDto sor,int katIndis)
+        {
+            _sinav.Kategoriler[katIndis].Sorular.Add(sor);
+            return true;
+        }
 
 
     }
