@@ -1,11 +1,11 @@
 ﻿ //ARRAYLER
+//var sinav = new Object();
     // var Sinav = new Sinav()
     var Kategoriler = [];
     //CLASLARR
     class Kategori {
         constructor(KategoriAdi) {
         this.KategoriAdi = KategoriAdi;
-
         }
 
     }
@@ -241,7 +241,7 @@
     function sinavEkrani() {
         tutucu.push(1);
     var place = document.getElementById("place");
-    var sayfaNumarasi=0;
+    var sayfaNumarasi=-1;
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -298,6 +298,7 @@
         tamamla.remove();
     if (tutucu.includes(sayfaNumarasi)) {
         ind = tutucu.indexOf(sayfaNumarasi);
+        
                     }
     sayfa(sayfaNumarasi, kategoriler[ind]);
         if (sayfaNumarasi == 0)
@@ -327,11 +328,14 @@
     
     if (tutucu.includes(sayfaNumarasi)) {
         ind = tutucu.indexOf(sayfaNumarasi);
+        //ind++;
                     }
         if (sayfaNumarasi < tutucu[tutucu.length - 1]) {
           //  console.log(sayfaNumarasi);
-            sayfaNumarasi = parseInt(sayfaNumarasi) + 1;
-        sayfa(sayfaNumarasi, kategoriler[ind]);
+            
+            console.log(sayfaNumarasi);
+            sayfa(sayfaNumarasi, kategoriler[ind]);
+            sayfaNumarasi = sayfaNumarasi + 1;
                     }
 
     // alert(sayfaNumarasi);
@@ -358,12 +362,12 @@
 }
 var gecis = 1;
 function sayfa(no, kategori) {
-
+    console.log(kategori);
     var contSorular = divOlustur();
         contSorular.id = "sorular";
     var cont = document.getElementById("altCont");
     cont.innerText = "";
-    if (tutucu.includes(no)) {
+    if (tutucu.includes(no)){
         gecis = no;
         var kategoriBaslik = divOlustur();
         kategoriBaslik.className = "baslik";
@@ -388,6 +392,8 @@ function sayfa(no, kategori) {
                 var cevaplar = Array.from(sorular[i].cevaplar);
                 for (var j = 0; j < cevaplar.length; j++) {
                     var cevap = butonOlustur(cevaplar[j].cevap);
+                    if (cevaplar[j].dogruMu == true)
+                        cevap.style.backgroundColor = "green";
                     cevapDivi.appendChild(cevap);
                 }
                 soru.appendChild(cevapDivi);
