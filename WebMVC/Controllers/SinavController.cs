@@ -109,7 +109,14 @@ namespace WebMVC.Controllers
             _sinav.Kategoriler[katIndis].Sorular.Add(sor);
             return true;
         }
-
-
+        
+        public IActionResult SinavGiris()
+        {
+            return View(_sinav);
+        }
+        public JsonResult Sorular()
+        {
+            return Json(_sinav.Kategoriler);
+        }
     }
 }

@@ -297,7 +297,7 @@
         ileri.disabled = false;
         tamamla.remove();
     if (tutucu.includes(sayfaNumarasi)) {
-        ind = tutucu.indexOf(sayfaNumarasi);
+        ind = tutucu.indexOf(sayfaNumarasi)-1;
         
                     }
     sayfa(sayfaNumarasi, kategoriler[ind]);

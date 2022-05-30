@@ -1,0 +1,96 @@
+﻿@model CoreLayer.Dtos.SinavDto
+
+@{
+    ViewData["Title"] = "SinavGiris";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <hr />
+    <div id="sinavEkrani">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.KategoriId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.KategoriId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SinavAdi)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SinavAdi)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Sure)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Sure)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Aciklama)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Aciklama)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.GecmeNotu)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.GecmeNotu)
+            </dd>
+        </dl>
+
+    </div>
+
+    <div id="baslatDivi">
+        <button onclick="basla(this);">BAŞLA</button>
+    </div>
+</div>
+<style>
+    .yon {
+        width: 70px;
+        height: 70px;
+        border: none;
+        color: white;
+        background-color: #4CAF50;
+        cursor: pointer;
+        border: 2px solid #4CAF50;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+    }
+    .dortSoru{
+        width:95%;
+        min-height:700px;
+        height:max-content;
+       display:grid;
+       grid-template-columns:45% 45%;
+       border:5px solid black;
+    }
+    .birSoru{
+        display:grid;
+        grid-template-rows:30% 70%;
+        height:48%;
+        border:3px solid black;
+    }
+    .dortCevap {
+        width: 95%;
+        height: max-content;
+        display: grid;
+        grid-template-columns: 45% 45%;
+    }
+    #orta{
+        min-height:700px;
+    }
+    .baslikKapak{
+
+    }
+</style>
+
