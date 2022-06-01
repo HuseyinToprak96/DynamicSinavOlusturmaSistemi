@@ -38,7 +38,6 @@ namespace WebMVC.Controllers
             _sinav.GecmeNotu = justSinav.GecmeNotu;
             _sinav.Sure = justSinav.Sure;
             _sinav.KategoriId = justSinav.KategoriId;
-
             return Json(_sinav.SinavAdi);
         }
         public static void SinavOlustur()
@@ -53,7 +52,6 @@ namespace WebMVC.Controllers
         {
             //dtos[0].
             _sinav.Kategoriler.Add(new SinavKategorisiDto { KategoriAdi=KategoriAdi });
-            TempData["sinav"] = _sinav.SinavAdi;
             return (_sinav.Kategoriler.Count-1);
         }
         public bool KategoriKaldir(int indis)
