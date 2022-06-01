@@ -24,7 +24,6 @@ namespace ServiceLayer.Services
         {
             return CustomResponseDto<IEnumerable<Kullanici>>.success(200, await _sinavRepository.GirecekListesi(id));
         }
-
         public async Task<CustomResponseDto<Sinav>> Sinav(int id)
         {
             return CustomResponseDto<Sinav>.success(200, await _sinavRepository.Sinav(id));

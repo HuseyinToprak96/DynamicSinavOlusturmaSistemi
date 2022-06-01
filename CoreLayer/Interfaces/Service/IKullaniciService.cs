@@ -14,5 +14,8 @@ namespace CoreLayer.Interfaces.Service
         Task<CustomResponseDto<IEnumerable<SinavDto>>> KullanicininSinavlari(int id);
         Task<CustomResponseDto<IEnumerable<SinavDto>>> OlusturduguSinavlar(int id);
         Task<CustomResponseDto<IEnumerable<SinavSonucu>>> SinavSonuclari(int id);
+        Task<CustomResponseDto<IQueryable<KullaniciDto>>> OgrenciListesi();
+        Task<GirenDto> Giris(string kadi, string sifre);
+
     }
 }

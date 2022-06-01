@@ -42,13 +42,10 @@ function basla(btn) {
                             cevaplarCont.id = "dortCevap_" + x;
                             for (var y = 0; y < kategoriler[i].sorular[x].cevaplar.length; y++) {
                                 var c = document.createElement("button");
-                                c.className = "soru_" + kategoriler[i].sorular[x].Id;
+                                c.className = "soru_" + x;
                                 c.innerText = kategoriler[i].sorular[x].cevaplar[y].cevap;
                                 c.addEventListener("click", function () {
-                                    var cevaplar = document.querySelector("#dortCevap_" + x + " button");
-                                    for (var b = 0; b < cevaplar.length; b++) {
-                                        cevaplar[b].style.backgroundColor = "white";
-                                    }
+                                    temizle(x);
                                     this.style.backgroundColor = "green";
                                 });
                                 cevaplarCont.appendChild(c);
@@ -137,4 +134,12 @@ function yeniDiv() {
     var div = document.createElement("div");
     div.className = "form-group";
     return div;
+}
+
+function temizle(x) {
+    var cevaplar = document.getElementsByClassName(".soru_"+x);
+    console.log(cevaplar.length+" x:"+x);
+    for (var b = 0; b < cevaplar.length; b++) {
+        cevaplar[b].style.backgroundColor = "white";
+    }
 }

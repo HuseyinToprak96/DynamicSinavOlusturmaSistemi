@@ -25,9 +25,25 @@ namespace ServiceLayer.Services
             return await _kullaniciRepository.allNumber();
         }
 
+        public async Task<GirenDto> Giris(string kadi, string sifre)
+        {
+           var kullanici= await _kullaniciRepository.Giris(kadi, sifre);
+            GirenDto girenDto=new GirenDto {
+                Id=kullanici.Id,
+                yetki=kullanici.yetki
+            };
+            return girenDto;
+        }
+
         public async Task<CustomResponseDto<IEnumerable<SinavDto>>> KullanicininSinavlari(int id)
         {
             return CustomResponseDto<IEnumerable<SinavDto>>.success(200, _mapper.Map<List<SinavDto>>(await _kullaniciRepository.KullanicininSinavlari(id)));
+        }
+
+        public async Task<CustomResponseDto<IQueryable<KullaniciDto>>> OgrenciListesi()
+        {
+            var ogrenciler = await _kullaniciRepository.OgrenciListesi();
+            return CustomResponseDto<IQueryable<KullaniciDto>>.success(200,_mapper.Map<IQueryable<KullaniciDto>>(ogrenciler.AsQueryable()));
         }
 
         public async Task<CustomResponseDto<IEnumerable<SinavDto>>> OlusturduguSinavlar(int id)

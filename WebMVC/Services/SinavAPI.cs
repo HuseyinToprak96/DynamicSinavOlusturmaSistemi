@@ -23,24 +23,24 @@ namespace WebMVC.Services
         }
         public async Task<SinavDto> Find(int id)
         {
-            var response = await _httpClient.GetFromJsonAsync<CustomResponseDto<SinavDto>>($"Employee/Find?id={id}");
+            var response = await _httpClient.GetFromJsonAsync<CustomResponseDto<SinavDto>>($"Sinav/Bul?id={id}");
             return response.Data;
         }
         public async Task<SinavDto> Add(SinavDto sinavDto)
         {
-            var response = await _httpClient.PostAsJsonAsync("Employee/Add", sinavDto);
+            var response = await _httpClient.PostAsJsonAsync("Sinav/Ekle", sinavDto);
             if (!response.IsSuccessStatusCode) return null;
             var responseBody = await response.Content.ReadFromJsonAsync<CustomResponseDto<SinavDto>>();
             return responseBody.Data;
         }
         public async Task<bool> Delete(int id)
         {
-            var response = await _httpClient.DeleteAsync($"Employee/Delete?id={id}");
+            var response = await _httpClient.DeleteAsync($"Sinav/Kaldir?id={id}");
             return response.IsSuccessStatusCode;
         }
         public async Task<bool> Update(SinavDto sinavDto)
         {
-            var response = await _httpClient.PutAsJsonAsync("Employee/Update", sinavDto);
+            var response = await _httpClient.PutAsJsonAsync("Sinav/Guncelle", sinavDto);
             return response.IsSuccessStatusCode;
         }
     }

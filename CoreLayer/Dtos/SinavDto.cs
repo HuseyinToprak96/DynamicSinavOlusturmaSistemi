@@ -14,6 +14,7 @@ namespace CoreLayer.Dtos
         public int Sure { get; set; }
         public string Aciklama { get; set; }
         public double GecmeNotu { get; set; }
+        public List<Sinav_KullaniciDto> GirecekOlanlar { get; set; } = new List<Sinav_KullaniciDto>();
         public List<SinavKategorisiDto> Kategoriler { get; set; } = new List<SinavKategorisiDto>();
      
     }

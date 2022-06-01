@@ -22,12 +22,25 @@ namespace DataLayer.Repository
             return (IEnumerable<string>)numaralar;
         }
 
+        //public async Task<(int Id, Yetki yetki)> Giris(string kadi, string sifre)
+        //{
+        //    var giren = await _context.Kullanicilar.Where(x => x.KullaniciAdi == kadi && x.Sifre == sifre).Select(x => new { x.Id, x.yetki }).SingleOrDefaultAsync();
+        //    return (giren.Id,giren.yetki); 
+        //}
+        public async Task<Kullanici> Giris(string kadi, string sifre)
+        {
+            var giren = await _context.Kullanicilar.Where(x => x.KullaniciAdi == kadi && x.Sifre == sifre).SingleOrDefaultAsync();
+            return giren;
+        }
         public async Task<IEnumerable<Sinav>> KullanicininSinavlari(int id)
         {
             var kullanicinSinavlari = await _context.Sinav_Kullanici.Include(x => x.sinav).Where(x => x.KullaniciId == id).Select(x=>x.sinav).ToListAsync();
-
             return kullanicinSinavlari; 
-                      
+        }
+
+        public async Task<IEnumerable<Kullanici>> OgrenciListesi()
+        {
+            return await _context.Kullanicilar.Where(x => x.yetki == (Yetki)3).ToListAsync();
         }
 
         public async Task<IEnumerable<Sinav>> OlusturduguSinavlar(int id)

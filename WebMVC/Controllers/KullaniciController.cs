@@ -14,7 +14,15 @@ namespace WebMVC.Controllers
         }
         public JsonResult Liste()
         {
-            return Json("aaaa");
+            return Json("Kullanicilar");
+        }
+        public JsonResult OgrenciListesi()
+        {
+            return Json("Öğrenci Listesi");
+        }
+        public JsonResult OgretmenListesi()
+        {
+            return Json("Ogretmen Listesi");
         }
     }
 }
