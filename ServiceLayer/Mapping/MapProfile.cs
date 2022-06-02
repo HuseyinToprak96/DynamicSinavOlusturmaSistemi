@@ -26,6 +26,7 @@ namespace ServiceLayer.Mapping
             CreateMap<Kullanici, KullaniciDto>();
             CreateMap<Kullanici, LoginDto>().ReverseMap();
             CreateMap<Kullanici, GirenDto>().ReverseMap();
+            CreateMap<Kullanici, YeniUyeDto>().ReverseMap();
             CreateMap<Sinav, JustSinavDto>();
             CreateMap<Sinav_Kullanici, Sinav_KullaniciDto>().ReverseMap();
         }

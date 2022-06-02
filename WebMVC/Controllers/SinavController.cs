@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMVC.Filters;
 using WebMVC.Services;
 
 namespace WebMVC.Controllers
@@ -26,10 +27,16 @@ namespace WebMVC.Controllers
         //{
         //    return View(await _SinavService.List());
         //}
-        public IActionResult Create()
+        public IActionResult Liste()
         {
             return View();
         }
+        [OgretmenFilter]
+        public IActionResult SinavEkle()
+        {
+            return View();
+        }
+        [OgretmenFilter]
         [HttpPost]
         public JsonResult SinavEkle(JustSinavDto justSinav)
         {
@@ -48,28 +55,32 @@ namespace WebMVC.Controllers
             //_sinav.Sure = dto.Sure;
             //_sinav.KategoriId = dto.KategoriId;
         }
+        [OgretmenFilter]
         public int KategoriEkle(string KategoriAdi)
         {
             //dtos[0].
             _sinav.Kategoriler.Add(new SinavKategorisiDto { KategoriAdi=KategoriAdi });
             return (_sinav.Kategoriler.Count-1);
         }
+        [OgretmenFilter]
         public bool KategoriKaldir(int indis)
         {
             _sinav.Kategoriler.Remove(_sinav.Kategoriler[indis]);
             return true;
         }
+        [OgretmenFilter]
         public static void KategoriyeSoruEkle(SoruDto soruDto)
         {
             var kategori = _sinav.Kategoriler.Where(x => x.Id == soruDto.KategoriId).SingleOrDefault();
             kategori.Sorular.Add(soruDto);
         }
-
+        [OgretmenFilter]
         public JsonResult SoruTipleri()
         {
             return Json(SoruTipi.GetNames(typeof(SoruTipi)));
         }
         public static int ind = new int();
+        [OgretmenFilter]
         [HttpPost]
         public int SoruEkle(int soruTipi,int katIndis,string soru)
         {
@@ -87,11 +98,13 @@ namespace WebMVC.Controllers
         //    _sinav.Kategoriler[0].Sorular.Add(soru);
         //    return _sinav.Kategoriler[0].Sorular.Count - 1;
         //}
+        [OgretmenFilter]
         [HttpPost]
         public void CevapEkle(int katIndis,int soruIndis,string cevap,bool dogruMu)
         {
             _sinav.Kategoriler[katIndis].Sorular[ind].cevaplar.Add(new CevapDto { cevap = cevap, DogruMu = dogruMu });
         }
+        [OgretmenFilter]
         [HttpPost]
         public JsonResult Guncelle()
         {
@@ -101,13 +114,14 @@ namespace WebMVC.Controllers
         //{
         //    await _SinavService.Add(_sinav);
         //}
+        [OgretmenFilter]
         [HttpPost]
         public bool ekleSoru(SoruDto sor,int katIndis)
         {
             _sinav.Kategoriler[katIndis].Sorular.Add(sor);
             return true;
         }
-        
+        [OgretmenFilter]
         public IActionResult SinavGiris()
         {
             return View(_sinav);

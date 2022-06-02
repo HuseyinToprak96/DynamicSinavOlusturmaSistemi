@@ -1,0 +1,48 @@
+﻿@model CoreLayer.Dtos.LoginDto
+@{
+    ViewData["Title"] = "Giris";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form asp-action="Giris" method="post" id="girisPanel">
+    <table class="table" style="width:50%;margin-left:25%">
+        <tr>
+            <th colspan="2" style="text-align:center;font-size:22px">GİRİŞ PANELİ</th>
+        </tr>
+        <tr>
+            <th>
+                Kullanıcı Adı
+            </th>
+            <td>
+                <input name="KullaniciAdi" required placeholder="Kullanıcı Adınızı giriniz" />
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Şifre
+            </th>
+            <td>
+                <input name="Sifre" required placeholder="Şifrenizi giriniz" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding-left:40%">
+                <input type="submit" value="GİRİŞ" id="girisButon"/>
+            </td>
+        </tr>
+        <tr><td colspan="2">@ViewBag.Hata</td></tr>
+    </table>
+</form>
+<style>
+    #girisPanel{
+        margin:10% auto;
+    }
+    #girisButon{
+        width:40%;
+        height:40px;
+        background-color:lightblue;
+        font-size:20px;
+        text-align:center;
+        padding-top:3px;
+        margin:auto auto;
+    }
+</style>

@@ -15,7 +15,6 @@ namespace DataLayer.Repository
         public KullaniciRepository(AppDbContext context) : base(context)
         {
         }
-
         public async Task<IEnumerable<string>> allNumber()
         {
             var numaralar = await _context.Kullanicilar.Select(x => new { x.Numara }).ToListAsync();

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<CoreLayer.Dtos.JustSinavDto>
+@{
+    ViewData["Title"] = "Liste";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Liste</h1>
+<table>
+    <tr>
+        <td>
+            Sınav
+        </td>
+        <td>
+            Tarihi
+        </td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.SinavAdi
+            </td>
+            <td>
+                @item.Sure
+            </td>
+        </tr>
+    }
+</table>

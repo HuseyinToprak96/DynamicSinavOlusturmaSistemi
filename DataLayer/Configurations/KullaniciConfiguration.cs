@@ -18,6 +18,7 @@ namespace DataLayer.Configurations
             builder.Property(x => x.Sifre).IsRequired().HasMaxLength(25);
             builder.Property(x => x.KullaniciAdi).HasMaxLength(25).IsRequired();
             builder.Property(x => x.Numara).IsRequired().HasMaxLength(5);
+            
         }
     }
 }

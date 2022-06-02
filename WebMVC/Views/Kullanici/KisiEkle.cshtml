@@ -1,0 +1,61 @@
+﻿@using CoreLayer.Models
+
+@model CoreLayer.Dtos.YeniUyeDto
+
+@{
+    ViewData["Title"] = "KisiEkle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>KisiEkle</h1>
+
+<h4>KullaniciDto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="KisiEkle">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Ad" class="control-label"></label>
+                <input asp-for="Ad" class="form-control" />
+                <span asp-validation-for="Ad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Soyad" class="control-label"></label>
+                <input asp-for="Soyad" class="form-control" />
+                <span asp-validation-for="Soyad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @*<label asp-for="yetki" class="control-label"></label>
+        <input asp-for="yetki" class="form-control" />
+        <span asp-validation-for="yetki" class="text-danger"></span>*@
+                <label asp-for="yetki" class="control-label"></label>
+                <select class="form-control" name="yetki">
+                    @*@foreach (var item in Yetki.GetNames(typeof(Yetki)))
+            {*@
+                    <option value="@((int)Yetki.Ogrenci)">@Yetki.Ogrenci</option>
+                    <option value="@((int)Yetki.Ogretmen)">@Yetki.Ogretmen</option>
+                    @*}*@
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="KullaniciAdi" class="control-label"></label>
+                <input asp-for="KullaniciAdi" class="form-control" />
+                <span asp-validation-for="KullaniciAdi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sifre" class="control-label"></label>
+                <input asp-for="Sifre" class="form-control" />
+                <span asp-validation-for="Sifre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
