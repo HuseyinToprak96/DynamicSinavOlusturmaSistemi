@@ -8,13 +8,9 @@ using System.Threading.Tasks;
 namespace WebMVC.Controllers
 {
     [AllowAnonymous]
-    public class SayfaController : Controller
+    public class ErrorController : Controller
     {
         public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult Hakkimizda()
         {
             return View();
         }

@@ -1,5 +1,6 @@
 ﻿using CoreLayer.Dtos;
 using CoreLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace WebMVC.Controllers
         //{
         //    return View(await _SinavService.List());
         //}
+        [AllowAnonymous]
         public IActionResult Liste()
         {
             return View();

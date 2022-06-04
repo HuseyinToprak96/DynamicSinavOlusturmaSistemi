@@ -1,5 +1,6 @@
 ﻿using CoreLayer.Dtos;
 using CoreLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,14 +11,15 @@ using WebMVC.Services;
 
 namespace WebMVC.Controllers
 {
+    [AllowAnonymous]
     public class IOController : Controller
     {
-        //private readonly KullaniciAPI _kullaniciAPI;
+        private readonly KullaniciAPI _kullaniciAPI;
 
-        //public IOController(KullaniciAPI kullaniciAPI)
-        //{
-        //    _kullaniciAPI = kullaniciAPI;
-        //}
+        public IOController(KullaniciAPI kullaniciAPI)
+        {
+            _kullaniciAPI = kullaniciAPI;
+        }
 
         public IActionResult Giris()
         {
@@ -26,14 +28,14 @@ namespace WebMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Giris(LoginDto loginDto)
         {
-            //          var result=await _kullaniciAPI.Login(loginDto);
-            //            if (result!=null)
-            //            {
-            //                HttpContext.Session.SetString("yetki",((Yetki)result.yetki).ToString());
-            //                HttpContext.Session.SetInt32("ID", result.Id);
-            //return RedirectToAction("Index","Sayfa");
-            //            }
-            ViewBag.Hata = "Hatalı kullanıcı adı veya şifre";
+            var result = await _kullaniciAPI.Login(loginDto);
+            if (result != null)
+            {
+                HttpContext.Session.SetString("yetki", ((Yetki)result.yetki).ToString());
+                HttpContext.Session.SetInt32("ID", result.Id);
+                return RedirectToAction("Index", "Sayfa");
+            }
+            ViewBag.Hata = "Hatalı kullanıcı adı:"+loginDto.KullaniciAdi +" veya şifre:"+loginDto.Sifre;
             return View();
 
     }

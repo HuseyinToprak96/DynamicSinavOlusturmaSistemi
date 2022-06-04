@@ -1,0 +1,49 @@
+﻿@model CoreLayer.Dtos.KullaniciDto
+
+@{
+    ViewData["Title"] = "Profilim";
+    Layout = "~/Views/Shared/Error.cshtml";
+}
+
+<h1>Profilim</h1>
+
+<div>
+    <h4>KullaniciDto</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Ad)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Ad)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Soyad)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Soyad)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Numara)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Numara)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.yetki)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.yetki)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
